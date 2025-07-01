@@ -1,0 +1,138 @@
+openapi: 3.1.0
+info:
+  title: Сервис для обмена книг
+  description: Сервис для обмена книг
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8001/v1/api'
+paths:
+  /auth/sign-in:
+    post:
+      summary: Авторизовать пользователя
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignIn'
+      responses:
+        '200':
+          description: Пользователь усмешно авторизовался
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtTokenResponse'
+        '401':
+          description: Неверный логин или пароль
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorizationException'
+        '422':
+          description: Данные не валидны
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationException'
+  /auth/sign-up:
+    post:
+      summary: Регистрация новых пользователей
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUp'
+      responses:
+        '201':
+          description: Пользователь успешно зарегестрирован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JwtTokenResponse'
+
+components:
+  schemas:
+    SignIn:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          example: example
+          description: Имя пользователя системы
+        password:
+          type: string
+          example: 123
+          description: Пароль пользователя системы
+    SignUp:
+      type: object
+      required:
+        - username
+        - password
+        - confirm_password
+      properties:
+        username:
+          type: string
+          example: example
+          description: Имя пользователя
+        email:
+          type: string
+          example: test@gmail.com
+          description: Электронный адрес пользователя
+        telegram_username:
+          type: string
+          example: '@test'
+          description: Имя пользователя в телеграм
+        password:
+          type: string
+          example: 123
+          description: Пароль пользователя
+        confirm_password:
+          type: string
+          example: 123
+          description: Пароль для подтверждения
+    JwtTokenResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IlJhbmRvbSBVc2VyIiwiaWF0IjoxNzE5MTIzNDU2LCJleHAiOjE3MTkxMjcwNTYsImFkbWluIjpmYWxzZSwicm9sZXMiOlsiVVNFUiIsIkRFVkVMT1BFUiJdfQ.4D5qW9v4XZz7Kj8Lm2nB1cR3tGy6fEe7HpIiJkOlNjQ
+    AuthorizationException:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 401
+          description: Код ошибки
+        message:
+          type: string
+          example: Неверный логин или пароль
+          description: Текст ошибки
+        timestamp:
+          type: string
+          format: date-time
+          example: 2025-01-01T00:00:00Z
+          description: Время ошибки
+    AlreadyExistException:
+
+    ValidationException:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+          example: 422
+          description: Код ошибки
+        message:
+          type: string
+          example: Имя обязательно для заполнения
+          description: Текст ошибки
+        timestamp:
+          type: string
+          format: date-time
+          example: 2025-01-01T00:00:00Z
+          description: Время ошибки

@@ -3,4 +3,5 @@ rootProject.name = 'BookChangeService'
 include 'app'
 include 'user'
 include 'common'
+include 'security'
 

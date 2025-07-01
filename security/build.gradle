@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+}
+
+group = 'ru.tdd'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':common')
+    implementation("io.jsonwebtoken:jjwt-api:0.12.6")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testImplementation(project(path: ':common', configuration: 'tests'))
+    testImplementation(project(':common'))
+}
+
+test {
+    useJUnitPlatform()
+}

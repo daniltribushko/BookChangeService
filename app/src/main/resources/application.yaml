@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: common
+  datasource:
+    url: ${DATABASE_URL}
+    driver-class-name: ${DATABASE_DRIVER}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+jwt:
+  token:
+    secret: ${JWT_SECRET}
+server:
+  port: 8001
+  servlet:
+    context-path: /v1/api
+springdoc:
+  api-docs:
+    enabled: true
+    path: /docs
+  swagger-ui:
+    path: /swagger.html
+    url: /openapi.yaml
